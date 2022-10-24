@@ -7,3 +7,12 @@ C:\Users\Bence\Desktop\SeaLord\.mono\temp\obj\Debug\SeaLord.AssemblyInfo.cs
 C:\Users\Bence\Desktop\SeaLord\.mono\temp\obj\Debug\SeaLord.csproj.CoreCompileInputs.cache
 C:\Users\Bence\Desktop\SeaLord\.mono\temp\obj\Debug\SeaLord.dll
 C:\Users\Bence\Desktop\SeaLord\.mono\temp\obj\Debug\SeaLord.pdb
+C:\Users\Bence\Documents\GitHub\SeaLords\.mono\temp\bin\Debug\SeaLord.dll
+C:\Users\Bence\Documents\GitHub\SeaLords\.mono\temp\bin\Debug\SeaLord.pdb
+C:\Users\Bence\Documents\GitHub\SeaLords\.mono\temp\obj\Debug\SeaLord.csproj.AssemblyReference.cache
+C:\Users\Bence\Documents\GitHub\SeaLords\.mono\temp\obj\Debug\SeaLord.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Bence\Documents\GitHub\SeaLords\.mono\temp\obj\Debug\SeaLord.AssemblyInfoInputs.cache
+C:\Users\Bence\Documents\GitHub\SeaLords\.mono\temp\obj\Debug\SeaLord.AssemblyInfo.cs
+C:\Users\Bence\Documents\GitHub\SeaLords\.mono\temp\obj\Debug\SeaLord.csproj.CoreCompileInputs.cache
+C:\Users\Bence\Documents\GitHub\SeaLords\.mono\temp\obj\Debug\SeaLord.dll
+C:\Users\Bence\Documents\GitHub\SeaLords\.mono\temp\obj\Debug\SeaLord.pdb
