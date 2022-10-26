@@ -49,7 +49,7 @@ public class movement : KinematicBody2D
         if (Input.IsActionPressed("E"))
         {
             anchortime += delta;
-            if(anchortime > 5){
+            if(anchortime > 3){
                     anchor = !anchor;
                 anchortime = 0;
             }
