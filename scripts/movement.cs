@@ -4,6 +4,7 @@ using System;
 public class movement : KinematicBody2D
 {
     [Export] public int speed = 0;
+
     [Export] public float rotationSpeed = 0.5f;
 
     public Vector2 velocity = new Vector2();    
@@ -18,6 +19,7 @@ public class movement : KinematicBody2D
         if(anchor == true){
             speed = 0;
         }
+        var panel = GetNode("Panel") as Panel;
         if (Input.IsActionPressed("right"))
             rotationDir += 1;
 
@@ -38,9 +40,14 @@ public class movement : KinematicBody2D
         }
         //GD.Print(speed);
         velocity = new Vector2(+speed, 0).Rotated(Rotation);
+            velocity = new Vector2(speed, 0).Rotated(Rotation);
+
+        if (Input.IsActionPressed("escape"))
+            GetTree().Paused = true;
+            //panel.SetVisible(true);
+    
         velocity = velocity.Normalized() * speed;
     }
-
     public override void _PhysicsProcess(float delta)
     {
         GetInput();
