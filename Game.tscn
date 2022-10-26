@@ -36,7 +36,8 @@ texture = ExtResource( 3 )
 
 [node name="Camera2D" type="Camera2D" parent="KinematicBody2D/Ship"]
 material = SubResource( 1 )
-position = Vector2( -83.0288, 0 )
+position = Vector2( -2038.82, -2901.84 )
+scale = Vector2( 9.22543, 6.64037 )
 current = true
 zoom = Vector2( 1.883, 1.792 )
 smoothing_enabled = true
