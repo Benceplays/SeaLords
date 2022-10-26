@@ -3,10 +3,10 @@ using System;
 
 public class movement : KinematicBody2D
 {
-    [Export] public int speed = 200;
+    [Export] public int speed = 0;
     [Export] public float rotationSpeed = 1.5f;
 
-    public Vector2 velocity = new Vector2();
+    public Vector2 velocity = new Vector2();    
     public int rotationDir = 0;
 
     public void GetInput()
@@ -21,11 +21,19 @@ public class movement : KinematicBody2D
             rotationDir -= 1;
 
         if (Input.IsActionPressed("down"))
-            velocity = new Vector2(-speed, 0).Rotated(Rotation);
-
+        {
+            if(speed > 0){
+                speed -= 25;
+            }
+        }
         if (Input.IsActionPressed("up"))
-            velocity = new Vector2(speed, 0).Rotated(Rotation);
-
+        {
+            if(speed < 250){
+                speed += 25;
+            }
+        }
+        GD.Print(speed);
+        velocity = new Vector2(+speed, 0).Rotated(Rotation);
         velocity = velocity.Normalized() * speed;
     }
 
