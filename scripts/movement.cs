@@ -19,7 +19,6 @@ public class movement : KinematicBody2D
         if(anchor == true){
             speed = 0;
         }
-        var panel = GetNode("Panel") as Panel;
         if (Input.IsActionPressed("right"))
             rotationDir += 1;
 
@@ -43,8 +42,11 @@ public class movement : KinematicBody2D
             velocity = new Vector2(speed, 0).Rotated(Rotation);
 
         if (Input.IsActionPressed("escape"))
+        {
+        var panel = GetNode("Panel") as Panel;
             GetTree().Paused = true;
             //panel.SetVisible(true);
+        }
     
         velocity = velocity.Normalized() * speed;
     }
@@ -61,6 +63,8 @@ public class movement : KinematicBody2D
                 anchortime = 0;
             }
         }
-        GD.Print(anchortime);
+        else{
+            anchortime = 0;
+        }
     }
 }
