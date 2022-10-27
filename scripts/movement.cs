@@ -61,5 +61,6 @@ public class movement : KinematicBody2D
                 anchortime = 0;
             }
         }
+        GD.Print(anchortime);
     }
 }
