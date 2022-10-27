@@ -14,10 +14,19 @@ public class movement : KinematicBody2D
 
     public void GetInput()
     {
+        var pause_menu_panel = GetNode("Ship/Pause_Menu/Panel") as Panel; 
+        var hud_anchor = GetNode("Ship/HUD/HUD_Anchor") as Sprite; 
+	    var anchor_disabled = ResourceLoader.Load("res://anchor_disabled.png") as Texture;
+	    var anchor_enabled = ResourceLoader.Load("res://anchor_enabled.png") as Texture;
+
         rotationDir = 0;
         velocity = new Vector2(); 
         if(anchor == true){
             speed = 0;
+            hud_anchor.Texture = anchor_disabled;
+        }
+        else{
+            hud_anchor.Texture = anchor_enabled;
         }
         if (Input.IsActionPressed("right"))
             rotationDir += 1;
@@ -37,15 +46,13 @@ public class movement : KinematicBody2D
                 speed += 1;
             }
         }
-        //GD.Print(speed);
         velocity = new Vector2(+speed, 0).Rotated(Rotation);
             velocity = new Vector2(speed, 0).Rotated(Rotation);
 
         if (Input.IsActionPressed("escape"))
         {
-        var panel = GetNode("Panel") as Panel;
+            pause_menu_panel.Visible = true;
             GetTree().Paused = true;
-            //panel.SetVisible(true);
         }
     
         velocity = velocity.Normalized() * speed;
@@ -58,7 +65,7 @@ public class movement : KinematicBody2D
         if (Input.IsActionPressed("E"))
         {
             anchortime += delta;
-            if(anchortime > 3){
+            if(anchortime > 2){
                     anchor = !anchor;
                 anchortime = 0;
             }
