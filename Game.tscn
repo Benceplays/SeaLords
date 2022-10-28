@@ -9,6 +9,7 @@
 [ext_resource path="res://assets/compass.png" type="Texture" id=7]
 [ext_resource path="res://assets/arrow.png" type="Texture" id=8]
 [ext_resource path="res://assets/circle.png" type="Texture" id=9]
+[ext_resource path="res://assets/play.png" type="Texture" id=9]
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 71.0
@@ -70,9 +71,10 @@ texture = ExtResource( 8 )
 [node name="Panel" type="Panel" parent="KinematicBody2D/Ship/Pause_Menu"]
 pause_mode = 2
 visible = false
-margin_left = 723.0
-margin_right = 1024.0
-margin_bottom = 600.0
+margin_left = 433.0
+margin_top = 92.0
+margin_right = 734.0
+margin_bottom = 692.0
 
 [node name="bacttogame" type="TextureButton" parent="KinematicBody2D/Ship/Pause_Menu/Panel"]
 pause_mode = 2
@@ -92,6 +94,14 @@ margin_bottom = 204.0
 texture_normal = ExtResource( 4 )
 expand = true
 
+[node name="optionsbutton" type="TextureButton" parent="KinematicBody2D/Ship/Pause_Menu/Panel"]
+margin_left = 80.0
+margin_top = 250.0
+margin_right = 230.0
+margin_bottom = 318.0
+texture_normal = ExtResource( 9 )
+expand = true
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
 position = Vector2( 8063.03, -3851.42 )
 scale = Vector2( 9.22543, 6.64037 )
@@ -99,3 +109,4 @@ shape = SubResource( 2 )
 
 [connection signal="pressed" from="KinematicBody2D/Ship/Pause_Menu/Panel/bacttogame" to="KinematicBody2D/Ship/Pause_Menu/Panel/bacttogame" method="_on_bacttogame_pressed"]
 [connection signal="pressed" from="KinematicBody2D/Ship/Pause_Menu/Panel/backtomenu" to="KinematicBody2D" method="_on_backtomenu_pressed"]
+[connection signal="pressed" from="KinematicBody2D/Ship/Pause_Menu/Panel/optionsbutton" to="KinematicBody2D" method="_on_optionsbutton_pressed"]

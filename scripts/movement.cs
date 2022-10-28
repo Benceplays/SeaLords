@@ -1,6 +1,5 @@
 using Godot;
 using System;
-
 public class movement : KinematicBody2D
 {
 	[Export] public int speed = 0;
@@ -145,10 +144,16 @@ public class movement : KinematicBody2D
 		}
 		return quarter;
 	}
-
 	public void _on_backtomenu_pressed(){
 		GD.Print("mukodik");
 		GetTree().ChangeScene("res://Menu.tscn");
 		GetTree().Paused = false;
 	}
+    public void _on_fullscreenbutton_pressed(){
+        OS.WindowFullscreen = !OS.WindowFullscreen;
+    }
+    public void _on_optionsbutton_pressed(){
+        GetTree().ChangeScene("res://Options.tscn");
+        GetTree().Paused = false;
+    }
 }
