@@ -141,6 +141,11 @@ public class movement : KinematicBody2D
             }
         }
         return quarter;
+    }
 
+    public void _on_backtomenu_pressed(){
+        GD.Print("mukodik");
+        GetTree().ChangeScene("res://Menu.tscn");
+        GetTree().Paused = false;
     }
 }

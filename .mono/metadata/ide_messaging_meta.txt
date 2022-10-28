@@ -1,2 +1,2 @@
-﻿1293
-E:/Saját meghajtó/Programozás/GODOT/Godot_v3.5.1-stable_mono_win64/Godot_v3.5.1-stable_mono_win64.exe
+﻿50981
+C:/Users/NEMETH~1.CSA/AppData/Local/Temp/Rar$EXa9484.41926/Godot_v3.5.1-stable_mono_win64/Godot_v3.5.1-stable_mono_win64.exe
