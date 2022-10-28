@@ -56,25 +56,24 @@ texture = ExtResource( 8 )
 [node name="Panel" type="Panel" parent="KinematicBody2D/Ship/Pause_Menu"]
 pause_mode = 2
 visible = false
-margin_left = 341.0
-margin_top = 188.0
-margin_right = 838.0
-margin_bottom = 598.0
+margin_left = 723.0
+margin_right = 1024.0
+margin_bottom = 600.0
 
 [node name="bacttogame" type="TextureButton" parent="KinematicBody2D/Ship/Pause_Menu/Panel"]
 pause_mode = 2
-margin_left = 150.0
+margin_left = 47.0
 margin_top = 24.0
-margin_right = 368.0
+margin_right = 265.0
 margin_bottom = 96.0
 texture_normal = ExtResource( 4 )
 expand = true
 script = ExtResource( 5 )
 
 [node name="backtomenu" type="TextureButton" parent="KinematicBody2D/Ship/Pause_Menu/Panel"]
-margin_left = 152.0
+margin_left = 51.0
 margin_top = 134.0
-margin_right = 364.0
+margin_right = 263.0
 margin_bottom = 204.0
 texture_normal = ExtResource( 4 )
 expand = true
