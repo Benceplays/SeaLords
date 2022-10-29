@@ -26,15 +26,6 @@ public class movement : KinematicBody2D
 
 		rotationDir = 0;
 		velocity = new Vector2();
-		if(anchor == true){
-			speed = 0;
-			rotationSpeed = 0;
-			hud_anchor.Texture = anchor_disabled;
-		}
-		else{
-			hud_anchor.Texture = anchor_enabled;
-			rotationSpeed = 0.5f;
-		}
 		if (Input.IsActionPressed("right"))
 			rotationDir += 1;
 
@@ -67,6 +58,15 @@ public class movement : KinematicBody2D
 		}
 		else{
 			compass.Visible = false;
+		}
+		if(anchor == true){
+			speed = 0;
+			rotationSpeed = 0;
+			hud_anchor.Texture = anchor_disabled;
+		}
+		else{
+			hud_anchor.Texture = anchor_enabled;
+			rotationSpeed = 0.5f;
 		}
 	
 		velocity = velocity.Normalized() * speed;
