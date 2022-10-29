@@ -78,8 +78,8 @@ public class movement : KinematicBody2D
 		var hud_minicompass_text = GetNode("Ship/HUD/HUD_Compass/HUD_Compass_Label") as Label;  
 		Rotation += rotationDir * rotationSpeed * delta;
 		velocity = MoveAndSlide(velocity);
-		hud_compass_arrow.RotationDegrees = (float) Math.Round(ConvertRadiansToDegrees(velocity.Angle()), 0);
-		string quarter = getQuarter((float) ConvertRadiansToDegrees(velocity.Angle()));
+		hud_compass_arrow.RotationDegrees = (float) Math.Round(ConvertRadiansToDegrees(Rotation), 0);
+		string quarter = getQuarter((float) ConvertRadiansToDegrees(Rotation));
 		hud_minicompass_text.Text = quarter;
 		if (Input.IsActionPressed("E"))
 		{
@@ -94,7 +94,7 @@ public class movement : KinematicBody2D
 		}
 	}
 	public string getQuarter (float rotation){
-		string quarter = "";
+		string quarter = "E";
 		if (rotation > 0){
 			rotation -= 360;
 		}
