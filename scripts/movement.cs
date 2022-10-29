@@ -14,6 +14,12 @@ public class movement : KinematicBody2D
 	public bool anchor = false;
 	public float anchortime = 0;
 	public float rotationtime = 0;
+	public int windrotation = 0;
+		public override void _Ready()
+	{
+		Random random = new Random();
+		windrotation = random.Next(0, 360);
+	}
 	public static double ConvertRadiansToDegrees(double radians)
 	{
 		double degrees = (180 / Math.PI) * radians;
@@ -74,6 +80,12 @@ public class movement : KinematicBody2D
 	public override void _PhysicsProcess(float delta)
 	{
 		GetInput();
+		// if (speed > 0 && windrotation = Math.Round(ConvertRadiansToDegrees(Rotation), 0) && sail != false) {sailspeed = 2}
+		var wind = GetNode("../Wind") as Sprite;
+		wind.RotationDegrees = windrotation;
+		GD.Print(windrotation);
+		GD.Print(Math.Round(ConvertRadiansToDegrees(Rotation), 0));
+
 		var hud_wheel_rotationspeed = GetNode("Ship/HUD/HUD_Pirate_Wheel/HUD_Wheel_RotationSpeed") as Label;
 		var hud_compass_arrow = GetNode("Ship/HUD/Compass/Arrow") as Sprite;
 		var hud_minicompass_text = GetNode("Ship/HUD/HUD_Compass/HUD_Compass_Label") as Label;

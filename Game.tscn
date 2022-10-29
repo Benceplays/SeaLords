@@ -24,6 +24,11 @@ position = Vector2( 361, -43 )
 position = Vector2( 226, 432 )
 texture = ExtResource( 6 )
 
+[node name="Wind" type="Sprite" parent="."]
+position = Vector2( 223, 319 )
+scale = Vector2( 0.165718, 0.190261 )
+texture = ExtResource( 8 )
+
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 position = Vector2( 221, 437 )
 scale = Vector2( 0.108396, 0.150594 )
