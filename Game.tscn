@@ -10,7 +10,7 @@
 [ext_resource path="res://assets/arrow.png" type="Texture" id=8]
 [ext_resource path="res://assets/play.png" type="Texture" id=9]
 [ext_resource path="res://assets/circle.png" type="Texture" id=10]
-[ext_resource path="res://assets/sail_disabled.png" type="Texture" id=11]
+[ext_resource path="res://assets/sail_enabled.png" type="Texture" id=11]
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 71.0
@@ -23,11 +23,6 @@ position = Vector2( 361, -43 )
 [node name="Map" type="Sprite" parent="."]
 position = Vector2( 226, 432 )
 texture = ExtResource( 6 )
-
-[node name="Wind" type="Sprite" parent="."]
-position = Vector2( 223, 319 )
-scale = Vector2( 0.165718, 0.190261 )
-texture = ExtResource( 8 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 position = Vector2( 221, 437 )
@@ -90,6 +85,13 @@ texture = ExtResource( 7 )
 [node name="Arrow" type="Sprite" parent="KinematicBody2D/Ship/HUD/Compass"]
 position = Vector2( 4.49805, -1.16016 )
 scale = Vector2( 0.071121, 0.102982 )
+texture = ExtResource( 8 )
+
+[node name="Wind_CanvasLayer" type="CanvasLayer" parent="KinematicBody2D/Ship"]
+
+[node name="Wind" type="Sprite" parent="KinematicBody2D/Ship/Wind_CanvasLayer"]
+position = Vector2( 584, 276 )
+scale = Vector2( 0.165718, 0.190261 )
 texture = ExtResource( 8 )
 
 [node name="Pause_Menu" type="CanvasLayer" parent="KinematicBody2D/Ship"]

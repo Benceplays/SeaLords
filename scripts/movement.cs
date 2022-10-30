@@ -8,17 +8,33 @@ public class movement : KinematicBody2D
 
 	public Vector2 velocity = new Vector2();    
 	public int rotationDir = 0;
-	public int sailspeed = 1;
+	public float sailspeed = 1;
 	public bool sail = false;
 	public float sailtime = 0;
-	public bool anchor = false;
+	public bool anchor = true;
 	public float anchortime = 0;
 	public float rotationtime = 0;
 	public int windrotation = 0;
+	public int windmax = 0;
+	public int windmin = 0;
 		public override void _Ready()
 	{
 		Random random = new Random();
 		windrotation = random.Next(0, 360);
+		var wind = GetNode("Ship/Wind_CanvasLayer/Wind") as Sprite;
+		wind.RotationDegrees = windrotation;
+		if((windrotation + 30) > 359){
+			windmax = (windrotation + 30) - 360;
+		}
+		else{
+			windmax = windrotation + 30;
+		}
+		if((windrotation - 30) < 0){
+			windmin= (windrotation - 30) + 360;
+		}
+		else{
+			windmin = windrotation - 30;
+		}
 	}
 	public static double ConvertRadiansToDegrees(double radians)
 	{
@@ -32,10 +48,6 @@ public class movement : KinematicBody2D
 		var sail_texutre = GetNode("Ship/HUD/HUD_Sail") as Sprite;
 		var pause_menu_panel = GetNode("Ship/Pause_Menu/Panel") as Panel; 
 		var hud_anchor = GetNode("Ship/HUD/HUD_Anchor") as Sprite; 
-		var anchor_disabled = ResourceLoader.Load("res://anchor_disabled.png") as Texture;
-		var anchor_enabled = ResourceLoader.Load("res://anchor_enabled.png") as Texture;
-		var sail_disabled = ResourceLoader.Load("res://assets/sail_disabled.png") as Texture;
-		var sail_enabled = ResourceLoader.Load("res://assets/sail_enabled.png") as Texture;
 
 		velocity = new Vector2();
 		velocity = new Vector2(+speed, 0).Rotated(Rotation);
@@ -56,19 +68,18 @@ public class movement : KinematicBody2D
 		if(anchor == true){
 			speed = 0;
 			rotationSpeed = 0;
-			hud_anchor.Texture = anchor_disabled;
+			hud_anchor.Modulate = Color.Color8(255, 255, 255, 255);
 		}
 		else{
 			speed = 50;
-			hud_anchor.Texture = anchor_enabled;
+			hud_anchor.Modulate = Color.Color8(255, 255, 255, 125);
 			rotationSpeed = 0.1f;
 		}
 		if(sail == true){
-			sail_texutre.Texture = sail_enabled;
-			sailspeed = 2;
+			sail_texutre.Modulate = Color.Color8(255, 255, 255, 255);
 		}
 		else{
-			sail_texutre.Texture = sail_disabled;
+			sail_texutre.Modulate = Color.Color8(255, 255, 255, 125);
 			sailspeed = 1;
 		}
 		if(anchor == true && sail == true){
@@ -80,12 +91,29 @@ public class movement : KinematicBody2D
 	public override void _PhysicsProcess(float delta)
 	{
 		GetInput();
-		// if (speed > 0 && windrotation = Math.Round(ConvertRadiansToDegrees(Rotation), 0) && sail != false) {sailspeed = 2}
-		var wind = GetNode("../Wind") as Sprite;
-		wind.RotationDegrees = windrotation;
-		GD.Print(windrotation);
-		GD.Print(Math.Round(ConvertRadiansToDegrees(Rotation), 0));
-
+		int ship_rotation = (int) Math.Round(ConvertRadiansToDegrees(Rotation), 0);
+		if (speed > 0 && sail == true) 
+		{
+			if (ship_rotation < 0){
+				ship_rotation += 360;
+			}
+			if((windrotation + 30) > 359 || (windrotation - 30) < 0){
+				if(windmax >= ship_rotation && 0 <= ship_rotation || windmin <= ship_rotation && 360 >= ship_rotation){
+					sailspeed = 2;
+				}
+				else{
+					sailspeed = 1;
+				}
+			}
+			else{
+				if(windmax >= ship_rotation && windmin <= ship_rotation){
+					sailspeed = 2;
+				}
+				else{
+					sailspeed = 1;
+				}
+			}
+		}
 		var hud_wheel_rotationspeed = GetNode("Ship/HUD/HUD_Pirate_Wheel/HUD_Wheel_RotationSpeed") as Label;
 		var hud_compass_arrow = GetNode("Ship/HUD/Compass/Arrow") as Sprite;
 		var hud_minicompass_text = GetNode("Ship/HUD/HUD_Compass/HUD_Compass_Label") as Label;
