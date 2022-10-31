@@ -17,6 +17,8 @@ public class movement : KinematicBody2D
 	public int windrotation = 0;
 	public int windmax = 0;
 	public int windmin = 0;
+	public int windmax_infrontof = 0;
+	public int windmin_infrontof = 0;
 		public override void _Ready()
 	{
 		Random random = new Random();
@@ -34,6 +36,18 @@ public class movement : KinematicBody2D
 		}
 		else{
 			windmin = windrotation - 30;
+		}
+		if((windrotation - 150) < 0){
+			windmax_infrontof = (windrotation - 150) + 360;
+		}
+		else{
+			windmax_infrontof = windrotation - 150;
+		}
+		if((windrotation - 210) < 0){
+			windmin_infrontof = (windrotation - 210) + 360;
+		}
+		else{
+			windmin_infrontof = windrotation - 210;
 		}
 	}
 	public static double ConvertRadiansToDegrees(double radians)
@@ -92,29 +106,29 @@ public class movement : KinematicBody2D
 	{
 		GetInput();
 		int ship_rotation = (int) Math.Round(ConvertRadiansToDegrees(Rotation), 0);
+		sailspeed = 1;
 		if (speed > 0 && sail == true) 
 		{
 			if (ship_rotation < 0){
 				ship_rotation += 360;
 			}
-			if((windrotation + 30) > 359 || (windrotation - 30) < 0){
-				if(windmax >= ship_rotation && 0 <= ship_rotation || windmin <= ship_rotation && 360 >= ship_rotation){
-					sailspeed = 2;
-				}
-				else{
-					sailspeed = 1;
-				}
+			if(((windrotation + 30) > 359 || (windrotation - 30) < 0) && (windmax >= ship_rotation && 0 <= ship_rotation || windmin <= ship_rotation && 359 >= ship_rotation)){
+				sailspeed = 2;
 			}
-			else{
-				if(windmax >= ship_rotation && windmin <= ship_rotation){
-					sailspeed = 2;
-				}
-				else{
-					sailspeed = 1;
-				}
+			if(((windrotation + 30) < 359 && (windrotation - 30) > 0) && (windmax >= ship_rotation && windmin <= ship_rotation)){
+				sailspeed = 2;
+			}
+			if(((windrotation - 150) < 0 && (windrotation - 210) < 0) && (windmax_infrontof >= ship_rotation && windmin_infrontof <= ship_rotation)){
+				sailspeed = 0.5f;
+			}
+			if(((windrotation - 150) > 0 && (windrotation - 210) < 0) && (windmax_infrontof >= ship_rotation && 0 <= ship_rotation || windmin_infrontof <= ship_rotation && 359 >= ship_rotation)){
+				sailspeed = 0.5f;
+			}
+			if(((windrotation - 150) > 0 && (windrotation - 210) > 0) && (windmax_infrontof >= ship_rotation && windmin_infrontof <= ship_rotation)){
+				sailspeed = 0.5f;
 			}
 		}
-		var hud_wheel_rotationspeed = GetNode("Ship/HUD/HUD_Pirate_Wheel/HUD_Wheel_RotationSpeed") as Label;
+		var hud_wheel_rotationspeed = GetNode("Ship/HUD/HUD_WheelLine/HUD_Wheel_RotationSpeed") as Label;
 		var hud_compass_arrow = GetNode("Ship/HUD/Compass/Arrow") as Sprite;
 		var hud_minicompass_text = GetNode("Ship/HUD/HUD_Compass/HUD_Compass_Label") as Label;
 		if (Input.IsActionPressed("right"))
