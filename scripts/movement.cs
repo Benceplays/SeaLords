@@ -19,11 +19,15 @@ public class movement : KinematicBody2D
 	public int windmin = 0;
 	public int windmax_infrontof = 0;
 	public int windmin_infrontof = 0;
+	public bool interaction_bool_anchor = false;
+	public bool interaction_bool_sail = false;
 		public override void _Ready()
 	{
+		// Szél irányát random generálja a játék elindulásánál
 		Random random = new Random();
 		windrotation = random.Next(0, 360);
 		var wind = GetNode("Ship/Wind_CanvasLayer/Wind") as Sprite;
+		// A szembeszél és a hátszél kiszámításához kellenek
 		wind.RotationDegrees = windrotation;
 		if((windrotation + 30) > 359){
 			windmax = (windrotation + 30) - 360;
@@ -105,6 +109,7 @@ public class movement : KinematicBody2D
 	public override void _PhysicsProcess(float delta)
 	{
 		GetInput();
+		// Vitorlás cucc (ha szembeszél lassít, ha mögötte van a szél gyorsít)
 		int ship_rotation = (int) Math.Round(ConvertRadiansToDegrees(Rotation), 0);
 		sailspeed = 1;
 		if (speed > 0 && sail == true) 
@@ -128,9 +133,25 @@ public class movement : KinematicBody2D
 				sailspeed = 0.5f;
 			}
 		}
-		var hud_wheel_rotationspeed = GetNode("Ship/HUD/HUD_WheelLine/HUD_Wheel_RotationSpeed") as Label;
+		// Texture csere speed alapján
+		var hud_speed = GetNode("Ship/HUD/HUD_Speed") as Sprite;
+		switch(sailspeed){
+			case 0.5f:
+				hud_speed.Texture =  ResourceLoader.Load("res://assets/speed1.png") as Texture;
+				break;
+			case 1:
+				hud_speed.Texture =  ResourceLoader.Load("res://assets/speed2.png") as Texture;
+				break;
+			case 2:
+				hud_speed.Texture =  ResourceLoader.Load("res://assets/speed3.png") as Texture;
+				break;
+		}
+		if(speed == 0){
+			hud_speed.Texture = ResourceLoader.Load("res://assets/speed0.png") as Texture;
+		}
 		var hud_compass_arrow = GetNode("Ship/HUD/Compass/Arrow") as Sprite;
-		var hud_minicompass_text = GetNode("Ship/HUD/HUD_Compass/HUD_Compass_Label") as Label;
+		var hud_wind_directionlabel = GetNode("Ship/HUD/HUD_Wind_Direction/HUD_Wind_Label") as Label;
+		//Jobb és balra kormányzás
 		if (Input.IsActionPressed("right"))
 		{
 			rotationtime += delta;
@@ -150,35 +171,86 @@ public class movement : KinematicBody2D
 		if(!Input.IsActionPressed("left") && !Input.IsActionPressed("right")){
 			rotationtime = 0;
 		}
-		hud_wheel_rotationspeed.Text = Convert.ToString(rotationDir);
 		Rotation += rotationDir * rotationSpeed * delta;
 		velocity = MoveAndSlide(velocity);
+		// Texture csere kormányzás iránya alapján
+		var hud_wheel = GetNode("Ship/HUD/HUD_WheelLine") as Sprite;
+		switch(rotationDir){
+			case 0:
+				hud_wheel.Texture =  ResourceLoader.Load("res://assets/rotation0.png") as Texture;
+				break;
+			case 2:
+				hud_wheel.Texture =  ResourceLoader.Load("res://assets/rotation1.png") as Texture;
+				break;
+			case 4:
+				hud_wheel.Texture =  ResourceLoader.Load("res://assets/rotation2.png") as Texture;
+				break;
+			case -2:
+				hud_wheel.Texture =  ResourceLoader.Load("res://assets/rotation-1.png") as Texture;
+				break;
+			case -4:
+				hud_wheel.Texture =  ResourceLoader.Load("res://assets/rotation-2.png") as Texture;
+				break;
+		}
+		// Iránytű
 		hud_compass_arrow.RotationDegrees = (float) Math.Round(ConvertRadiansToDegrees(Rotation), 0);
-		string quarter = getQuarter((float) ConvertRadiansToDegrees(Rotation));
-		hud_minicompass_text.Text = quarter;
-		if (Input.IsActionPressed("space"))
-		{
-			anchortime += delta;
-			if(anchortime > 2){
-				anchor = !anchor;
+		// A szél irányának kiíratása
+		string quarter = getQuarter(windrotation);
+		hud_wind_directionlabel.Text = quarter;
+		// Interakciók (vitorla, horgony)
+		string anchor_keyinfo = "space";
+		var anchor_keyinfo_label = GetNode("Ship/HUD/HUD_Anchor_Keyinfo") as Label;
+		var	interaction_anchor = GetNode("Ship/HUD_Interaction/Anchor_ProgressBar/Anchor_Label") as Label;
+		var	interaction_sail = GetNode("Ship/HUD_Interaction/Sail_Progressbar/Sail_Label") as Label;
+		var	interaction_sail_progressbar = GetNode("Ship/HUD_Interaction/Sail_Progressbar") as ProgressBar;
+		var	interaction_anchor_progressbar = GetNode("Ship/HUD_Interaction/Anchor_ProgressBar") as ProgressBar;
+		anchor_keyinfo_label.Text = anchor_keyinfo;
+		if(!interaction_bool_sail){
+			if (Input.IsActionPressed(anchor_keyinfo))
+			{
+				interaction_bool_anchor = true;
+				anchortime += delta;
+				interaction_anchor_progressbar.Visible = true;
+				if(anchor){interaction_anchor.Text = "Pulling up anchor";}
+				else{interaction_anchor.Text = "Dropping anchor";}
+				interaction_anchor_progressbar.Value = anchortime;
+				if(anchortime > 3){
+					anchor = !anchor;
+					anchortime = 0;
+				}
+			}
+			else{
 				anchortime = 0;
+				interaction_bool_anchor = false;
+				interaction_anchor_progressbar.Visible = false;
 			}
 		}
-		else{
-			anchortime = 0;
-		}
-		if (Input.IsActionPressed("alt"))
-		{
-			sailtime += delta;
-			if(sailtime> 2){
-				sail = !sail;
+		string sail_keyinfo = "alt";
+		var sail_keyinfo_label = GetNode("Ship/HUD/HUD_Sail_KeyInfo") as Label;
+		sail_keyinfo_label.Text = sail_keyinfo;
+		interaction_sail.Text = "";
+		if(!interaction_bool_anchor){
+			if (Input.IsActionPressed(sail_keyinfo))
+			{
+				interaction_bool_sail = true;
+				sailtime += delta;
+				interaction_sail_progressbar.Visible = true;
+				if(sail){interaction_sail.Text = "Lowering the sail";}
+				else{interaction_sail.Text = "Raising the sail";}
+				interaction_sail_progressbar.Value = sailtime;
+				if(sailtime> 3){
+					sail = !sail;
+					sailtime = 0;
+				}
+			}
+			else{
 				sailtime = 0;
+				interaction_bool_sail = false;
+				interaction_sail_progressbar.Visible = false;
 			}
-		}
-		else{
-			sailtime = 0;
 		}
 	}
+	// Szél irányának kiszámításához használt metódus
 	public string getQuarter (float rotation){
 		string quarter = "E";
 		if (rotation > 0){
@@ -231,7 +303,6 @@ public class movement : KinematicBody2D
 		return quarter;
 	}
 	public void _on_backtomenu_pressed(){
-		GD.Print("mukodik");
 		GetTree().ChangeScene("res://Menu.tscn");
 		GetTree().Paused = false;
 	}
