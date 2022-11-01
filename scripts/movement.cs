@@ -86,18 +86,18 @@ public class movement : KinematicBody2D
 		if(anchor == true){
 			speed = 0;
 			rotationSpeed = 0;
-			hud_anchor.Modulate = Color.Color8(255, 255, 255, 255);
+			hud_anchor.SelfModulate = Color.Color8(255, 255, 255, 255);
 		}
 		else{
 			speed = 50;
-			hud_anchor.Modulate = Color.Color8(255, 255, 255, 125);
+			hud_anchor.SelfModulate = Color.Color8(255, 255, 255, 125);
 			rotationSpeed = 0.1f;
 		}
 		if(sail == true){
-			sail_texutre.Modulate = Color.Color8(255, 255, 255, 255);
+			sail_texutre.SelfModulate = Color.Color8(255, 255, 255, 255);
 		}
 		else{
-			sail_texutre.Modulate = Color.Color8(255, 255, 255, 125);
+			sail_texutre.SelfModulate = Color.Color8(255, 255, 255, 125);
 			sailspeed = 1;
 		}
 		if(anchor == true && sail == true){
@@ -199,7 +199,7 @@ public class movement : KinematicBody2D
 		hud_wind_directionlabel.Text = quarter;
 		// Interakciók (vitorla, horgony)
 		string anchor_keyinfo = "space";
-		var anchor_keyinfo_label = GetNode("Ship/HUD/HUD_Anchor_Keyinfo") as Label;
+		var anchor_keyinfo_label = GetNode("Ship/HUD/HUD_Anchor/HUD_Anchor_Keyinfo") as Label;
 		var	interaction_anchor = GetNode("Ship/HUD_Interaction/Anchor_ProgressBar/Anchor_Label") as Label;
 		var	interaction_sail = GetNode("Ship/HUD_Interaction/Sail_Progressbar/Sail_Label") as Label;
 		var	interaction_sail_progressbar = GetNode("Ship/HUD_Interaction/Sail_Progressbar") as ProgressBar;
@@ -226,7 +226,7 @@ public class movement : KinematicBody2D
 			}
 		}
 		string sail_keyinfo = "alt";
-		var sail_keyinfo_label = GetNode("Ship/HUD/HUD_Sail_KeyInfo") as Label;
+		var sail_keyinfo_label = GetNode("Ship/HUD/HUD_Sail/HUD_Sail_KeyInfo") as Label;
 		sail_keyinfo_label.Text = sail_keyinfo;
 		interaction_sail.Text = "";
 		if(!interaction_bool_anchor){
@@ -310,7 +310,15 @@ public class movement : KinematicBody2D
         OS.WindowFullscreen = !OS.WindowFullscreen;
     }
     public void _on_optionsbutton_pressed(){
-        GetTree().ChangeScene("res://Options.tscn");
-        GetTree().Paused = false;
+        	var pause_menu_panel = GetNode("Ship/Pause_Menu/Panel") as Panel; 
+			var pause_menu_options = GetNode("Ship/Pause_Menu/Options") as Panel; 
+			pause_menu_panel.Visible = false;
+			pause_menu_options.Visible = true;
+    }
+	public void _on_backtopausemenu_pressed(){
+        	var pause_menu_panel = GetNode("Ship/Pause_Menu/Panel") as Panel; 
+			var pause_menu_options = GetNode("Ship/Pause_Menu/Options") as Panel; 
+			pause_menu_options.Visible = false;
+			pause_menu_panel.Visible = true;
     }
 }
